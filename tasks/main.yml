@@ -54790,3 +54790,17 @@
   - reboot_required
   - restrict_strategy
   - xwindows_runlevel_target
+  
+- name: RHEL 9 must enable Linux audit logging for the USBGuard daemon.
+  lineinfile:
+    path: /etc/usbguard/usbguard-daemon.conf
+    regexp: '^AuditBackend=FileAudit$'
+    line: "AuditBackend=LinuxAudit"
+    backrefs: yes
+
+- name: Must be set to an authoritative DoD time source.
+  lineinfile:
+    path: /etc/chrony.conf  
+    regexp: '^pool.+$'
+    line: "pool 0.us.pool.ntp.mil"
+    backrefs: yes
